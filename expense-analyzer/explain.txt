@@ -1,0 +1,213 @@
+================================================================
+        EXPENSE ANALYZER — DOKUMENTASI PROJECT
+================================================================
+
+----------------------------------------------------------------
+1. RINGKASAN PROJECT
+----------------------------------------------------------------
+
+Expense Analyzer adalah aplikasi web berbasis Vanilla JavaScript
+yang dirancang untuk membantu pengguna mencatat, memantau, dan
+menganalisis pengeluaran keuangan pribadi secara visual dan
+real-time. Project ini bertujuan menyelesaikan masalah umum
+yang dihadapi banyak orang, yaitu ketidaktahuan ke mana uang
+mereka pergi setiap bulannya. Dengan antarmuka yang sederhana
+dan intuitif, pengguna dapat menginput setiap transaksi harian
+beserta kategorinya, lalu langsung melihat ringkasan statistik,
+grafik batang, dan donut chart yang menggambarkan pola pengeluaran
+mereka secara menyeluruh.
+
+Fungsi utama AI Agent yang dikembangkan dalam konteks project ini
+adalah sebagai asisten analisis keuangan yang mampu membantu
+pengguna memahami data pengeluaran mereka melalui visualisasi
+otomatis, kategorisasi cerdas, serta peringatan berbasis pola
+konsumsi. Target pengguna utama adalah individu berusia 18–35
+tahun yang aktif mengelola keuangan pribadi namun tidak memiliki
+latar belakang akuntansi, dan membutuhkan alat bantu yang ringan,
+cepat, dan tidak memerlukan koneksi internet maupun akun pengguna.
+
+
+----------------------------------------------------------------
+2. PROBLEM STATEMENT
+----------------------------------------------------------------
+
+Permasalahan yang melatarbelakangi pengembangan project ini adalah
+rendahnya kesadaran dan kemampuan masyarakat umum dalam mengelola
+dan melacak pengeluaran keuangan pribadi secara konsisten dan
+terstruktur. Saat ini, sebagian besar orang mencatat pengeluaran
+secara manual di buku catatan atau spreadsheet yang tidak memiliki
+kemampuan analisis visual, atau sama sekali tidak mencatatnya.
+
+Kondisi ini menjadi masalah serius karena tanpa data yang tercatat
+dan tervisualisasi dengan baik, seseorang tidak dapat mengetahui
+kategori pengeluaran mana yang paling besar menyedot anggaran,
+kapan terjadi lonjakan pengeluaran, maupun apakah pola konsumsi
+mereka sudah sesuai dengan kemampuan finansialnya. Akibatnya,
+banyak orang mengalami defisit keuangan di akhir bulan tanpa
+mengetahui penyebab pastinya.
+
+Apabila masalah ini tidak ditangani, dampak jangka panjangnya
+sangat signifikan: terbentuknya kebiasaan boros yang tidak
+disadari, ketidakmampuan menabung secara konsisten, hingga
+munculnya utang konsumtif yang berulang. Di era di mana gaya
+hidup konsumtif semakin diperkuat oleh media sosial dan kemudahan
+transaksi digital, kebutuhan akan alat bantu pencatatan keuangan
+yang mudah diakses dan dipahami menjadi semakin mendesak.
+
+
+----------------------------------------------------------------
+3. TARGET USERS
+----------------------------------------------------------------
+
+Pengguna Utama:
+  - Mahasiswa dan fresh graduate (18–25 tahun) yang baru mulai
+    mengelola keuangan secara mandiri dan belum terbiasa dengan
+    tools keuangan yang kompleks.
+
+  - Pekerja muda (25–35 tahun) dengan penghasilan tetap yang
+    ingin mulai membangun kebiasaan mencatat pengeluaran tanpa
+    harus mempelajari software akuntansi yang rumit.
+
+  - Individu yang mengelola keuangan rumah tangga skala kecil
+    dan membutuhkan gambaran cepat tentang pos-pos pengeluaran
+    utama seperti makanan, transportasi, dan utilitas.
+
+Karakteristik Pengguna:
+  - Tidak memiliki latar belakang akuntansi atau keuangan formal.
+  - Terbiasa menggunakan perangkat smartphone/laptop sehari-hari.
+  - Menginginkan solusi yang cepat, ringan, dan tidak perlu
+    membuat akun atau login.
+  - Menyukai tampilan visual yang bersih dan mudah dipahami
+    tanpa harus membaca angka panjang secara manual.
+
+Kebutuhan Pengguna:
+  - Kemampuan mencatat transaksi dengan cepat (kurang dari 10 detik).
+  - Visualisasi langsung tanpa perlu ekspor ke aplikasi lain.
+  - Data tersimpan otomatis dan tidak hilang saat browser ditutup.
+  - Kategori pengeluaran yang relevan dengan kehidupan sehari-hari.
+
+
+----------------------------------------------------------------
+4. ARSITEKTUR PROMPT (PROMPT LAYERING)
+----------------------------------------------------------------
+
+Dalam pengembangan AI Agent untuk Expense Analyzer, arsitektur
+prompt dirancang menggunakan pendekatan berlapis (Prompt Layering)
+yang terdiri dari 4 layer utama:
+
+  LAYER 1 — System Prompt (Foundation Layer)
+  -------------------------------------------
+  Tujuan   : Mendefinisikan identitas, peran, dan batasan AI Agent.
+  Isi      : AI dikonfigurasi sebagai "asisten keuangan pribadi"
+             yang hanya bertugas membantu analisis pengeluaran.
+             Layer ini menetapkan tone komunikasi (ramah, ringkas,
+             tidak menghakimi), batasan topik (hanya keuangan
+             pribadi), dan format output yang diharapkan.
+  Contoh   : "Kamu adalah asisten keuangan pribadi yang membantu
+             pengguna memahami pola pengeluaran mereka. Jawab
+             dengan bahasa yang sederhana, tidak lebih dari
+             3 poin utama, dan selalu fokus pada data yang
+             diberikan pengguna."
+
+  LAYER 2 — Context Injection Layer
+  -------------------------------------------
+  Tujuan   : Menyuntikkan data pengeluaran aktual pengguna ke
+             dalam konteks AI sebelum setiap sesi analisis.
+  Isi      : Data transaksi (nama item, jumlah, kategori, tanggal)
+             diambil dari localStorage dan diformat menjadi
+             struktur teks terstruktur yang bisa dibaca AI.
+  Contoh   : "Berikut adalah data pengeluaran pengguna bulan ini:
+             [Makanan: Rp 450.000], [Transport: Rp 210.000],
+             [Shopping: Rp 780.000] ..."
+
+  LAYER 3 — Task Prompt Layer
+  -------------------------------------------
+  Tujuan   : Mengarahkan AI untuk menjalankan tugas analisis
+             spesifik berdasarkan permintaan pengguna.
+  Isi      : Prompt ini dibuat dinamis sesuai intent pengguna,
+             misalnya: menemukan kategori terboros, memberi
+             saran penghematan, atau mendeteksi anomali
+             pengeluaran dibanding bulan sebelumnya.
+  Contoh   : "Berdasarkan data di atas, identifikasi 2 kategori
+             dengan pengeluaran tertinggi dan berikan 1 saran
+             praktis untuk masing-masing kategori tersebut."
+
+  LAYER 4 — Output Formatting Layer
+  -------------------------------------------
+  Tujuan   : Memastikan respons AI konsisten, ringkas, dan
+             mudah ditampilkan di antarmuka web.
+  Isi      : AI diarahkan untuk selalu menjawab dalam format
+             tertentu (poin-poin, tabel sederhana, atau
+             kalimat pendek) sehingga output bisa langsung
+             di-render di UI tanpa perlu post-processing rumit.
+  Contoh   : "Selalu akhiri jawaban dengan ringkasan 1 kalimat
+             berupa saran tindakan konkret yang bisa langsung
+             dilakukan pengguna hari ini."
+
+
+----------------------------------------------------------------
+5. ITERASI PROMPT
+----------------------------------------------------------------
+
+Selama proses pengembangan AI Agent, dilakukan beberapa iterasi
+penyempurnaan prompt sebagai berikut:
+
+  ITERASI 1 — Prompt Awal (Terlalu Umum)
+  -------------------------------------------
+  Prompt    : "Bantu saya analisis pengeluaran saya."
+  Masalah   : AI memberikan jawaban yang terlalu generik,
+               tidak menggunakan data spesifik pengguna, dan
+               sering memberikan nasihat keuangan standar yang
+               tidak relevan dengan kondisi aktual.
+  Dampak    : Output tidak berguna dan membingungkan pengguna.
+
+  ITERASI 2 — Penambahan Context Data
+  -------------------------------------------
+  Perubahan : Data pengeluaran aktual disertakan dalam prompt
+               sebagai bagian dari context injection.
+  Alasan    : AI membutuhkan data konkret untuk menghasilkan
+               analisis yang spesifik dan personal.
+  Dampak    : Jawaban menjadi jauh lebih relevan dan spesifik,
+               namun format output masih tidak konsisten —
+               terkadang terlalu panjang, terkadang terlalu
+               singkat.
+
+  ITERASI 3 — Penambahan Format Constraint
+  -------------------------------------------
+  Perubahan : Ditambahkan instruksi format output di akhir prompt:
+               maksimal 3 poin, gunakan bahasa Indonesia sederhana,
+               sertakan angka/persentase dari data yang ada.
+  Alasan    : Konsistensi format diperlukan agar output bisa
+               ditampilkan langsung di UI tanpa editing manual.
+  Dampak    : Output menjadi konsisten dan mudah diparsing,
+               namun AI terkadang memotong analisis penting
+               hanya karena batasan jumlah poin.
+
+  ITERASI 4 — Penyempurnaan Role & Tone
+  -------------------------------------------
+  Perubahan : System prompt diperbarui dengan penekanan pada
+               tone "tidak menghakimi" dan "suportif" — AI
+               tidak boleh menggunakan kata-kata negatif
+               seperti "boros", "salah", atau "buruk".
+  Alasan    : Feedback pengguna menunjukkan bahwa respons AI
+               yang terlalu judgmental membuat pengguna tidak
+               nyaman dan enggan menggunakan fitur analisis.
+  Dampak    : Tingkat engagement dengan fitur AI meningkat
+               karena pengguna merasa didukung, bukan dihakimi.
+
+  ITERASI 5 — Final Prompt (Optimized)
+  -------------------------------------------
+  Perubahan : Semua layer digabungkan dengan urutan yang tepat:
+               System → Context → Task → Format. Ditambahkan
+               fallback instruction apabila data kosong atau
+               tidak cukup untuk dianalisis.
+  Alasan    : Memastikan AI tetap memberikan respons yang
+               bermakna bahkan ketika data pengguna masih sedikit
+               (misalnya baru 1–2 transaksi).
+  Dampak    : AI Agent menjadi robust, konsisten, dan memberikan
+               pengalaman pengguna yang natural di semua kondisi.
+
+
+================================================================
+                     END OF DOCUMENT
+================================================================
